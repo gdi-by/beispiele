@@ -31,7 +31,7 @@
                         <ogc:And>               
                             <ogc:PropertyIsLike escapeChar="\" singleChar="?" wildCard="*">
                                 <ogc:PropertyName>gmd:serviceTypeVersion</ogc:PropertyName>
-                                <ogc:Literal>*OGC:WFS 2.0*</ogc:Literal>
+                                <ogc:Literal>*OGC:WFS*</ogc:Literal>
                             </ogc:PropertyIsLike>                                                          
                             <ogc:PropertyIsLike escapeChar="\" singleChar="?" wildCard="*">
                                 <ogc:PropertyName>gmd:serviceTypeVersion</ogc:PropertyName>
