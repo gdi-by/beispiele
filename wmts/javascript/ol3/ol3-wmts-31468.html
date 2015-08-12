@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BVV WMTS - Beispiel: OL3 EPSG:31468</title>
+        <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="http://openlayers.org/en/v3.8.1/css/ol.css" type="text/css">
+        <script src="http://openlayers.org/en/v3.8.1/build/ol.js"></script>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="map" class="map"></div>
+                </div>
+            </div>
+
+        </div>
+        <script>
+
+            var serviceKey = '{SERVICEKEY}';
+            var url = [];
+            url.push(
+                    'http://www.geodaten.bayern.de/wmts-test/',
+                    serviceKey,
+                    '/1.0.0/WMTSCapabilities.xml'
+                    );
+
+            var parser = new ol.format.WMTSCapabilities();
+            var map;
+
+            $.get(url.join('')).then(function (response) {
+                var result = parser.read(response);
+
+                var projection = new ol.proj.Projection({
+                    code: 'EPSG:31468',
+                    extent: [3925712, 4974288, 4875712, 5924288],
+                    units: 'm',
+                    axisOrientation: 'neu'
+                });
+                ol.proj.addProjection(projection);
+
+                // Layer-Identifier: z. B. 'by_webatlas'
+                var options = ol.source.WMTS.optionsFromCapabilities(result,
+                        {layer: 'by_webatlas', projection: projection});
+
+                map = new ol.Map({
+                    layers: [
+                        new ol.layer.Tile({
+                            opacity: 1,
+                            source: new ol.source.WMTS(options)
+                        })
+                    ],
+                    target: 'map',
+                    view: new ol.View({
+                        projection: projection,
+                        center: [4468499, 5333554],
+                        zoom: 8
+                    })
+                });
+            });
+
+        </script>
+    </body>
+</html>
