@@ -171,7 +171,7 @@
                         <tr>
                             <td>URL zum Aufruf des Dienstanbieters</td>
                             <td>
-                                <xsl:value-of select="$orGetC"/>
+                                <xsl:value-of select="WMT_MS_Capabilities/Service/OnlineResource/@xlink:href"/>
                             </td>
                         </tr>
 
