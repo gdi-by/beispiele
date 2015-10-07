@@ -24,7 +24,7 @@
             var serviceKey = '{SERVICEKEY}';
             var url = [];
             url.push(
-                    'http://www.geodaten.bayern.de/wmts-test/',
+                    'http://www.geodaten.bayern.de/wmts/',
                     serviceKey,
                     '/1.0.0/WMTSCapabilities.xml'
                     );
@@ -34,9 +34,9 @@
             $.get(url.join('')).then(function (response) {
                 var result = parser.read(response);
                 
-                // Layer-Identifier: z. B. 'by_webatlas'
+                // Layer-Identifier: z. B. 'by_webkarte'
                 var options = ol.source.WMTS.optionsFromCapabilities(result,
-                        {layer: 'by_webatlas', matrixSet: 'smerc'});
+                        {layer: 'by_webkarte', matrixSet: 'smerc'});
 
                 map = new ol.Map({
                     layers: [
