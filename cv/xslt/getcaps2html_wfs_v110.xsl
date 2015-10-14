@@ -194,10 +194,10 @@
                             <!-- 2.1.x -->
                             <tr>
                                 <td>
-                                    URL zum Aufruf des Dienstes
+                                    URL zum Aufruf des Dienstanbieters
                                 </td>
                                 <td>
-                                    <xsl:value-of select="$orGetC"/>
+                                    <xsl:value-of select="wfs:WFS_Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:OnlineResource/@xlink:href"/>
                                 </td>
                             </tr>
 
