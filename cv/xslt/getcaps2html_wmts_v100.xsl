@@ -634,10 +634,15 @@
 
                     </xsl:if>
 
-                    <a href="http://www.gdi.bayern.de/impressum.html">Impressum</a> | <a href="http://www.gdi.bayern.de/kontakt.html">Kontakt</a> | © <a href="http://www.vermessung.bayern.de/" title="Landesamt für Vermessung und Geoinformation Bayern">LVG</a> - <a href="http://www.gdi.bayern.de">Geschäftsstelle GDI-BY</a>
+
+                    <a href="http://www.gdi.bayern.de/impressum.html">Impressum</a> | 
+                    <a href="http://www.gdi.bayern.de/kontakt.html">Kontakt</a> | © 
+                    <a href="http://www.vermessung.bayern.de/" title="Landesamt für Digitalisierung, Breitband und Vermessung">LDBV</a> - 
+                    <a href="http://www.gdi.bayern.de">Geschäftsstelle GDI-BY</a>
 
                     <br /> 
                     <br />
+
                 </center>
             </body>
         </html>
