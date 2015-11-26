@@ -71,19 +71,12 @@
         <xsl:variable name="orGetC_org">
             <xsl:value-of select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetCapabilities']/ows:DCP/ows:HTTP/ows:Get/@xlink:href"/>
         </xsl:variable>
-        <xsl:variable name="orGetC">
-            <!-- <xsl:value-of select="java:getCorrectedOnlineResource($orGetC_org)"/> -->
-            <xsl:value-of select="$orGetC_org" />
-        </xsl:variable>
         
         <!-- Tile Resource -->
         <xsl:variable name="orGetT_org">
             <xsl:value-of select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetTile']/ows:DCP/ows:HTTP/ows:Get/@xlink:href"/>
         </xsl:variable>
-        <xsl:variable name="orGetT">
-            <!-- <xsl:value-of select="java:getCorrectedOnlineResource($orGetT_org)"/> -->
-            <xsl:value-of select="$orGetT_org" />
-        </xsl:variable>      
+                   
         
  
         <!-- ############### -->
@@ -136,7 +129,7 @@
 
                         <table>
                             <caption>
-                                Angaben zum Service (WMTS 1.0.0)
+                                Angaben zum Dienst (WMTS 1.0.0)
                             </caption>
                             <thead>
                                 <tr>
@@ -149,7 +142,7 @@
                                 <!-- 1.1.1 -->
                                 <tr>
                                     <td>
-                                        <b>Name des Service</b>
+                                        <b>Name des Dienstes</b>
                                     </td>
                                     <td>
                                         <xsl:value-of select="wmts:Capabilities/ows:ServiceIdentification/ows:Title"/>
@@ -242,6 +235,12 @@
                                         <p>
                                             <b>E-Mail</b>: <xsl:value-of select="wmts:Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:Address/ows:ElectronicMailAddress"/>
                                         </p>
+                                        <p>
+                                            <b>Servicezeiten</b>: <xsl:value-of select="wmts:Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:HoursOfService"/>
+                                        </p>
+                                        <p>
+                                            <b>Ergänzende Hinweise</b>: <xsl:value-of select="wmts:Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:ContactInstructions"/>
+                                        </p>
                                     </td>
                                 </tr>
 
@@ -273,110 +272,98 @@
                         <br />
 
 
-                        <!-- 2.2.0 -->
-                        <xsl:if test="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetCapabilities']">       
-                            <table>
-                                <caption>
-                                    Angaben zum KVP Capabilities-Aufruf (GetCapabilities)
-                                </caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Eigenschaften des<br />Capabilities-Dokumentes</th>
-                                        <th scope="col">Beschreibung</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <!-- 2.2 --> 
+                            
+                        <table>
+                            <caption>
+                                Angaben zur GetCapabilities-Operation
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Encoding</th>
+                                    <th scope="col">OnlineResource</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                  
+                                <xsl:for-each select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetCapabilities']/ows:DCP/ows:HTTP/ows:Get">
+
                                     <tr>
                                         <td>
-                                            <td> Encoding der Tiles</td>
+                                            <xsl:value-of select="ows:Constraint/ows:AllowedValues/ows:Value"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetCapabilities']/ows:DCP/ows:HTTP/ows:Get/ows:Constraint/ows:AllowedValues/ows:Value"/>
-                                        </td>
+                                            <xsl:value-of select="@xlink:href"/>
+                                        </td>                                                    
                                     </tr>
-                                    <tr>
-                                        <td>OnlineResource</td>
-                                        <td>
-                                            <xsl:value-of select="$orGetC"/>
-                                        </td>
-                                    </tr>     
-                                                               
-                                </tbody>
-                            </table>
-                            <br />
-                            <br />
-                        </xsl:if>
 
-                        <!-- 2.2.1 -->
-                        <xsl:if test="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetTile']">                       
-
-                            <table>
-                                <caption>
-                                    Angaben zum Kachelaufruf (GetTile)
-                                </caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Eigenschaften der<br />Tiles</th>
-                                        <th scope="col">Beschreibung</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
+                                </xsl:for-each>
+                                                                                                                                                     
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                             
+                                                                                                     
+                        <table>
+                            <caption>
+                                REST-Capabilities URL
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">REST-Capabilities URL</th>
+                                    <th scope="col">Angabe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                  
-                                    <tr>
-                                        <td> Encoding der Tiles</td>
-                                        <td>
-                                            <xsl:value-of select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetTile']/ows:DCP/ows:HTTP/ows:Get/ows:Constraint/ows:AllowedValues/ows:Value"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>OnlineResource</td>
-                                        <td>
-                                            <xsl:value-of select="$orGetT"/>
-                                        </td>
-                                    </tr>    
-                                            
-                                </tbody>
-                            </table>
-                            <br />
-                            <br />
-                        
-                        </xsl:if>
-                        
-                        <!-- 2.2.2 -->
-                        <xsl:if test="not(wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetCapabilities'])"> 
-                            <table>
-                                <caption>
-                                    REST-Capabilities URL
-                                </caption>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">REST-Capabilities URL</th>
-                                        <th scope="col">Angabe</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                 
-                                    <tr>
-                                        <td>
-                                            <b>REST-Capabilities URL</b>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="wmts:Capabilities/wmts:ServiceMetadataURL/@xlink:href"/>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        <b>REST-Capabilities URL</b>
+                                    </td>
+                                    <td>
+                                        <xsl:value-of select="wmts:Capabilities/wmts:ServiceMetadataURL/@xlink:href"/>
+                                    </td>
+                                </tr>
                                
                                             
-                                </tbody>
-                            </table>
-                            <br />
-                            <br />
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
                         
-                        </xsl:if>
-                        
+
+                        <table>
+                            <caption>
+                                Angaben zum Kachelaufruf (GetTile)
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Eigenschaften der<br />Tiles</th>
+                                    <th scope="col">Beschreibung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                 
+                                <tr>
+                                    <td>Encoding</td>
+                                    <td>
+                                        <xsl:value-of select="wmts:Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetTile']/ows:DCP/ows:HTTP/ows:Get/ows:Constraint/ows:AllowedValues/ows:Value"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>OnlineResource</td>
+                                    <td>
+                                        <xsl:value-of select="$orGetT_org"/>
+                                    </td>
+                                </tr>    
+                                          
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                                                                     
                 
                         <!-- 2.3 Beschreibung der Layer --> 
 
@@ -453,9 +440,9 @@
                                         <td>
                                         
                                             <b>Begrenzung</b>:<br />
-                                            Unteres Eck: <xsl:value-of select="ows:WGS84BoundingBox/ows:LowerCorner"/>
+                                            Unterer Begrenzungspunkt: <xsl:value-of select="ows:WGS84BoundingBox/ows:LowerCorner"/>
                                             <br />
-                                            Oberes Eck: <xsl:value-of select="ows:WGS84BoundingBox/ows:UpperCorner"/>
+                                            Oberer Begrenzungspunkt: <xsl:value-of select="ows:WGS84BoundingBox/ows:UpperCorner"/>
                                             <br />
                                           
                                         </td>
@@ -477,7 +464,7 @@
                                
                                         <tr>
                                             <td>
-                                                <b>Legenden-URL</b>
+                                                <b>Legende(n)</b>
                                                 <br />
                                                 <xsl:if test="@minScaleDenominator">
                                                     MinScaleDenominator <xsl:value-of select="@minScaleDenominator" />
@@ -521,22 +508,20 @@
                                             <xsl:value-of select="wmts:TileMatrixSetLink/wmts:TileMatrixSet" />
                                         </td>
                                     </tr>
-
-                                    <!-- 2.3.9 -->
-                                    <tr>
-                                        <td>
-                                            <b>Ressourcen-URL</b>
-                                        </td>
                                     
-                                        <td>
-                                            <xsl:value-of select="wmts:ResourceURL/@template"/>
+                                    <xsl:for-each select="wmts:ResourceURL/@template">
+                                        <tr>
+                                            <td>
+                                                <b>Ressourcen-URL</b>
+                                            </td>
+                                    
+                                            <td>
+                                                <xsl:value-of select="."/>
                                                 
-                                        </td> 
-                                        
-                              
-                                    </tr>
-
-                       
+                                            </td>                                        
+                                        </tr>
+                                    </xsl:for-each>                                    
+                                                                      
                                 </tbody>
                             </table>
                            
@@ -606,7 +591,7 @@
                                                 <br />
                                                 <b> Identifikator </b> : <xsl:value-of select="ows:Identifier"/>
                                                 <br />
-                                                <b> Maßstabsangabe</b>: <xsl:value-of select="wmts:ScaleDenominator"/>
+                                                <b> Maßstabszahl</b>: <xsl:value-of select="wmts:ScaleDenominator"/>
                                                 <br />
                                                 <b> Linker oberer Begrenzungspunkt </b>: <xsl:value-of select="wmts:TopLeftCorner"/>
                                                 <br />
@@ -635,14 +620,16 @@
                     </xsl:if>
 
 
+                    <br />
+                    <br />
+                    
                     <a href="http://www.gdi.bayern.de/impressum.html">Impressum</a> | 
                     <a href="http://www.gdi.bayern.de/kontakt.html">Kontakt</a> | © 
                     <a href="http://www.vermessung.bayern.de/" title="Landesamt für Digitalisierung, Breitband und Vermessung">LDBV</a> - 
                     <a href="http://www.gdi.bayern.de">Geschäftsstelle GDI-BY</a>
-
+                                    
                     <br /> 
                     <br />
-
                 </center>
             </body>
         </html>
