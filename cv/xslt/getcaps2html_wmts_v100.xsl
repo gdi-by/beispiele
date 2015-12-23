@@ -133,7 +133,7 @@
                             </caption>
                             <thead>
                                 <tr>
-                                    <th scope="col">Angaben zum Service</th>
+                                    <th scope="col">Angaben zum Dienst</th>
                                     <th scope="col">Beschreibung</th>
                                 </tr>
                             </thead>
@@ -500,15 +500,21 @@
                                     </tr>
 
                                     <!-- 2.3.8 -->
-                                    <tr>
-                                        <td>
-                                            <b>Tile Matrix Set</b>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="wmts:TileMatrixSetLink/wmts:TileMatrixSet" />
-                                        </td>
-                                    </tr>
+                                    <xsl:for-each select="wmts:TileMatrixSetLink/wmts:TileMatrixSet">
                                     
+                                        <tr>
+                                            <td>
+                                                <b>Tile Matrix Set</b>
+                                            </td>
+                                            <td>
+                                                <xsl:value-of select="." />
+                                            </td>
+                                        </tr>
+                                    
+                                    </xsl:for-each>      
+                                    
+                                    
+                                    <!-- 2.3.9 -->
                                     <xsl:for-each select="wmts:ResourceURL/@template">
                                         <tr>
                                             <td>
