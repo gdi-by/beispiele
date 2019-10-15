@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BVV WMTS - Beispiel: OpenLayers EPSG:31468</title>
+    <link rel="stylesheet" href="http://openlayers.org/en/latest/css/ol.css" type="text/css">
+    <script src="https://openlayers.org/en/latest/build/ol.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script>
+
+        var serviceKey = '${SERVICEKEY}';
+        var url = [];
+        url.push(
+            'https://geoservices.bayern.de/wmts/v1/',
+            serviceKey,
+            '/1.0.0/WMTSCapabilities.xml'
+        );
+
+        var parser = new ol.format.WMTSCapabilities();
+
+
+        var map;
+
+        fetch(url.join(''))
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (text) {
+                var result = parser.read(text);
+
+                var projection = new ol.proj.Projection({
+                    code: 'EPSG:31468',
+                    extent: [3925712, 4974288, 4875712, 5924288],
+                    units: 'm',
+                    axisOrientation: 'neu'
+                });
+                ol.proj.addProjection(projection);
+
+                var options = ol.source.WMTS.optionsFromCapabilities(result,
+                    { layer: 'by_webkarte', projection: projection.getCode() });
+
+                map = new ol.Map({
+                    layers: [
+                        new ol.layer.Tile({
+                            opacity: 1,
+                            source: new ol.source.WMTS(options)
+                        })
+                    ],
+                    target: 'map',
+                    view: new ol.View({
+                        projection: projection,
+                        center: [4468499, 5333554],
+                        zoom: 8
+                    })
+                });
+
+            });
+    </script>
+</body>
+
+</html>
