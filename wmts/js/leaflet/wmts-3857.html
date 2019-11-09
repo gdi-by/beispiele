@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BVV WMTS - Beispiel: Leaflet EPSG:3857</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+
+        const serviceKey = '${SERVICEKEY}';
+        const url = [];
+        url.push(
+            'https://geoservices.bayern.de/wmts/v1/',
+            serviceKey,
+            '/1.0.0/WMTSCapabilities.xml'
+        );
+
+        //WMTS Layers to be shown on map
+        const layerIds = ['by_webkarte'];
+
+
+        const map = L.map('map').setView([49, 11.5], 8);
+
+
+        fetch(url.join(''))
+            .then(response => response.text())
+            .then(str => parseGetCapabilities(str))
+            .then(wmtsLayers => addLayers(wmtsLayers));
+
+
+
+
+        const parseGetCapabilities = xml => {
+            const layers = [];
+            const getCapabilitiesXml = new window.DOMParser().parseFromString(xml, "text/xml");
+
+            const layerNodes = getCapabilitiesXml.getElementsByTagName("Layer");
+            for (let i = 0; i < layerNodes.length; i++) {
+
+                const identifier = layerNodes[i].getElementsByTagName("ows:Identifier")[0].childNodes[0].nodeValue;
+                if (layerIds.includes(identifier)) {
+
+                    const style = layerNodes[i].getElementsByTagName("Style")[0].children[0].childNodes[0].nodeValue;
+                    //smerc
+                    const tileMatrixSet = layerNodes[i].getElementsByTagName("TileMatrixSetLink")[1].children[0].childNodes[0].nodeValue;
+
+                    const resourceUrls = layerNodes[i].getElementsByTagName("ResourceURL");
+
+                    const subdomains = [];
+
+                    for (let item of resourceUrls) {
+                        const u = item.attributes.getNamedItem("template").nodeValue;
+                        subdomains.push(new URL(u).host.split('.')[0]);
+                    }
+
+                    const serviceURLTemplates = layerNodes[i].getElementsByTagName("ResourceURL")[0].attributes.getNamedItem("template").nodeValue
+
+                    const baseURL = serviceURLTemplates.replace("geodaten1", "{s}")
+                        .replace("{Style}", style)
+                        .replace("{TileMatrixSet}", tileMatrixSet)
+                        .replace("{TileMatrix}", "{z}")
+                        .replace("{TileRow}", "{y}")
+                        .replace("{TileCol}", "{x}");
+
+
+                    layers.push(L.tileLayer(baseURL, {
+                        id: identifier,
+                        subdomains: subdomains,
+                        attribution: 'Map data &copy; <a target="_blank" href="https://www.geodaten.bayern.de">Landesamt für Digitalisierung, Breitband und Vermessung</a>'
+
+                    }));
+
+                };
+
+
+            };
+
+            return layers;
+
+        }
+
+        const addLayers = layers => {
+            layers.forEach(l => {
+                l.addTo(map);
+            });
+
+        }
+    </script>
+</body>
+
+</html>
