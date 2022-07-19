@@ -193,10 +193,10 @@
                             <!-- 2.1.x -->
                             <tr>
                                 <td>
-                                    URL zum Aufruf des Diensteanbieters
+                                    URL zum Aufruf des Dienstanbieters
                                 </td>
                                 <td>
-                                    <xsl:value-of select="wfs:WFS_Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:OnlineResource/@xlink:href"/>
+                                    <xsl:value-of select="$orGetC"/>
                                 </td>
                             </tr>
 
@@ -453,7 +453,8 @@
                                     <td>
                                         <xsl:variable name="orGetURL_org">
                                             <!-- <xsl:value-of select="ows:DCP/ows:HTTP/ows:Get/@xlink:href"/> -->
-                                            <xsl:value-of select="ows:DCP/ows:HTTP/ows:Post/@xlink:href"/>
+                                            <!--<xsl:value-of select="ows:DCP/ows:HTTP/ows:Post/@xlink:href"/>-->
+                                            <xsl:value-of select="concat(ows:DCP/ows:HTTP/ows:Post/@xlink:href,'&#63;version=2.0.0&amp;service=WFS&amp;request=',./@name)"/>
                                         </xsl:variable>
                                         <xsl:variable name="orGetURL">
                                             <xsl:value-of select="java:getCorrectedOnlineResource($orGetURL_org)"/>
@@ -610,6 +611,58 @@
                                     </xsl:for-each>
                                 </td>
                             </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+
+                    <table>
+                        <caption>
+                            Eigenschaften der Operation GetPropertyValue
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" width="30%">Eigenschaft</th>
+                                <th scope="col">Beschreibung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--<tr>
+                                <td>URL für die Anfrage</td>
+                                <td>
+                                    <xsl:value-of select="$orGetM"/>
+                                </td>
+                            </tr>-->
+                            <tr>
+                                <td>
+                                    Ausgabeformate
+                                </td>
+                                <td>
+                                    <xsl:for-each select="wfs:WFS_Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetPropertyValue']/ows:Parameter[@name='outputFormat']/ows:AllowedValues/ows:Value">
+                                        <xsl:value-of select="."/>
+                                        <br/>
+                                    </xsl:for-each>
+                                    <xsl:if test="not(wfs:WFS_Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetPropertyValue']/ows:Parameter[@name='outputFormat']/ows:AllowedValues)">
+                                        <xsl:for-each select="wfs:WFS_Capabilities/ows:OperationsMetadata/ows:Parameter[@name='outputFormat']/ows:AllowedValues/ows:Value">
+                                            <xsl:value-of select="."/>
+                                            <br/>
+                                        </xsl:for-each>
+                                    </xsl:if>
+                                </td>
+                            </tr>
+                            <xsl:if test="(wfs:WFS_Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetPropertyValue']/ows:Parameter[@name='resultType']/ows:AllowedValues)">
+                                <tr>
+                                    <td>
+                                        Parameter resultType
+                                    </td>
+                                    <td>
+                                        <xsl:for-each select="wfs:WFS_Capabilities/ows:OperationsMetadata/ows:Operation[@name='GetPropertyValue']/ows:Parameter[@name='resultType']/ows:AllowedValues/ows:Value">
+                                            <xsl:value-of select="."/>
+                                            <br/>
+                                        </xsl:for-each>
+                                    </td>
+                                </tr>
+                            </xsl:if>
                         </tbody>
                     </table>
                     <br />

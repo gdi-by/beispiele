@@ -164,7 +164,7 @@
                                     URL zum Aufruf des Dienstanbieters
                                 </td>
                                 <td>
-                                    <xsl:value-of select="wfs:WFS_Capabilities/wfs:Service/wfs:OnlineResource"/>
+                                    <xsl:value-of select="$orGetC"/>
                                 </td>
                             </tr>
 

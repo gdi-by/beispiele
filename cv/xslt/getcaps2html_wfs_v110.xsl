@@ -197,7 +197,7 @@
                                     URL zum Aufruf des Dienstanbieters
                                 </td>
                                 <td>
-                                    <xsl:value-of select="wfs:WFS_Capabilities/ows:ServiceProvider/ows:ServiceContact/ows:ContactInfo/ows:OnlineResource/@xlink:href"/>
+                                    <xsl:value-of select="$orGetC"/>
                                 </td>
                             </tr>
 
@@ -464,7 +464,8 @@
                                     <td>
                                         <xsl:variable name="orGetURL_org">
                                             <!-- <xsl:value-of select="ows:DCP/ows:HTTP/ows:Get/@xlink:href"/> -->
-                                            <xsl:value-of select="ows:DCP/ows:HTTP/ows:Post/@xlink:href"/>
+                                            <!--<xsl:value-of select="ows:DCP/ows:HTTP/ows:Post/@xlink:href"/>-->
+                                            <xsl:value-of select="concat(ows:DCP/ows:HTTP/ows:Post/@xlink:href,'&#63;version=1.1.0&amp;service=WFS&amp;request=',./@name)"/>
                                         </xsl:variable>
                                         <xsl:variable name="orGetURL">
                                             <!-- #JAVA# -->                                            

@@ -53,13 +53,10 @@
 
     <!-- ### Variablen ### -->
     <xsl:variable name="build">
-        <!-- <xsl:value-of select="java:getBuild()"/> -->
-        !Manuelle Transformation!
-        
+        <xsl:value-of select="java:getBuild()"/>
     </xsl:variable>        
     <xsl:variable name="urlprefix">
-        <!-- <xsl:value-of select="java:getUrlprefix($optIP)"/> -->
-        http://wwww.geoportal.bayern.de
+        <xsl:value-of select="java:getUrlprefix($optIP)"/>
     </xsl:variable>
 
 
@@ -133,7 +130,7 @@
                             </caption>
                             <thead>
                                 <tr>
-                                    <th scope="col">Angaben zum Dienst</th>
+                                    <th scope="col">Angaben zum Service</th>
                                     <th scope="col">Beschreibung</th>
                                 </tr>
                             </thead>
@@ -276,7 +273,7 @@
                             
                         <table>
                             <caption>
-                                Angaben zur GetCapabilities-Operation
+                                Angaben zum Capabilities-Aufruf (GetCapabilities)
                             </caption>
                             <thead>
                                 <tr>
@@ -512,7 +509,7 @@
                                         </tr>
                                     
                                     </xsl:for-each>      
-                                    
+                                   
                                     
                                     <!-- 2.3.9 -->
                                     <xsl:for-each select="wmts:ResourceURL/@template">
