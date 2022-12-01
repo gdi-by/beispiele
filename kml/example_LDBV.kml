@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+	<Placemark>
+		<name>Landesamt für Digitalisierung, Breitband und Vermessung München</name>
+		<description>This is an example for a KML file</description>
+		<Point>
+			<coordinates>11.59034013780911,48.14164270301229,0</coordinates>
+		</Point>
+	</Placemark>
+</kml>
